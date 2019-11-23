@@ -12,29 +12,69 @@ class CardForm extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            startDate: new Date()
+            nombre:"",
+            apellido:"",
+            fecha: new Date(),
+            hora:"",
+            sintomas:""
         };
+        this.handleNombreChange = this.handleNombreChange.bind(this);
+        this.handleApellidoChange = this.handleApellidoChange.bind(this);
+        this.handleHoraChange = this.handleHoraChange.bind(this);
+        this.handleSintomasChange = this.handleSintomasChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleNombreChange(e){
+        this.setState({
+            nombre:e.target.value
+        });
+    }
+
+    handleApellidoChange(e){
+        this.setState({
+            apellido:e.target.value
+        });
     }
 
     handleChangeDate(date){
-        console.log(date);
+       this.setState({
+           fecha:date
+       })
+    }
+
+    handleHoraChange(e){
+        this.setState({
+            hora:e.target.value
+        });
+    }
+
+    handleSintomasChange(e){
+        this.setState({
+            sintomas:e.target.value
+        });
+    }
+
+    handleSubmit(e){
+        e.preventDefault();
+        console.log(this.state);
     }
 
     render() {
         return (
             <div className="card card-body">
                 <h2 className="card-title text-center">Añadir paciente.</h2>
-                <form className="container-fluid">
+                <form className="container-fluid" onSubmit={this.handleSubmit}>
                     <div className="form-group row">
                         <label htmlFor="nombre" className="col-sm-3 col-form-label">Nombre</label>
                         <div className="col-sm-9">
-                            <input type="text" id="nombre" className="form-control" placeholder="Nombre del paciente" />
+                            <input onChange={this.handleNombreChange} type="text" id="nombre" className="form-control" placeholder="Nombre del paciente" />
                         </div>
                     </div>
                     <div className="form-group row">
                         <label htmlFor="apellido" className="col-sm-3 col-form-label">Apellidos</label>
                         <div className="col-sm-9">
-                            <input type="text" id="apellido" className="form-control" placeholder="Apellidos del paciente" />
+                            <input onChange={this.handleApellidoChange} type="text" id="apellido" className="form-control" placeholder="Apellidos del paciente" />
                         </div>
                     </div>
                     <div className="row">
@@ -45,7 +85,7 @@ class CardForm extends React.Component {
                                     <DatePicker
                                         id="fecha"
                                         className="form-control"
-                                        selected={this.state.startDate}
+                                        selected={this.state.fecha}
                                         onChange={this.handleChangeDate}
                                         locale="es"
                                     />
@@ -56,7 +96,7 @@ class CardForm extends React.Component {
                             <div className="form-group row">
                                 <label htmlFor="hora" className="col-sm-5 col-form-label rm-pr">Hora</label>
                                 <div className="col-sm-7">
-                                    <input type="text" id="hora" className="form-control" placeholder="hh:mm" />
+                                    <input onChange={this.handleHoraChange} type="text" id="hora" className="form-control" placeholder="hh:mm" />
                                 </div>
                             </div>
                         </div>
@@ -64,7 +104,7 @@ class CardForm extends React.Component {
                     <div className="form-group row">
                         <label htmlFor="sintomas" className="col-sm-3 col-form-label">Sintomas</label>
                         <div className="col-sm-9">
-                            <textarea id="sintomas" className="form-control" />
+                            <textarea onChange={this.handleSintomasChange} id="sintomas" className="form-control" />
                         </div>
                     </div>
                     <input className="btn btn-success float-right" type="submit" value="Agregar" />
