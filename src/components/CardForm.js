@@ -1,5 +1,6 @@
 import React from 'react';
 import './CardForm.css';
+import uuid from 'uuid';
 
 //Datepicker config
 import DatePicker from "react-datepicker";
@@ -12,6 +13,7 @@ class CardForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: uuid(),
             nombre: "",
             apellido: "",
             fecha: new Date(),
@@ -20,6 +22,7 @@ class CardForm extends React.Component {
         };
         this.handleNombreChange = this.handleNombreChange.bind(this);
         this.handleApellidoChange = this.handleApellidoChange.bind(this);
+        this.handleChangeDate = this.handleChangeDate.bind(this);
         this.handleHoraChange = this.handleHoraChange.bind(this);
         this.handleSintomasChange = this.handleSintomasChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,7 +43,7 @@ class CardForm extends React.Component {
     handleChangeDate(date) {
         this.setState({
             fecha: date
-        })
+        });
     }
 
     handleHoraChange(e) {
@@ -60,13 +63,13 @@ class CardForm extends React.Component {
         this.props.onPacientesChange(this.state);
         e.currentTarget.reset();
         this.setState({
+            id: uuid(),
             nombre: "",
             apellido: "",
             fecha: new Date(),
             hora: "",
             sintomas: ""
-        }
-        );
+        });
     }
 
     render() {
@@ -97,6 +100,7 @@ class CardForm extends React.Component {
                                         selected={this.state.fecha}
                                         onChange={this.handleChangeDate}
                                         locale="es"
+                                        dateFormat="yyyy/MM/dd"
                                     />
                                 </div>
                             </div>

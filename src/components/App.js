@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import './App.css';
 import CardForm from './CardForm';
+import Panel from './Panel';
 
 class App extends React.Component {
 	constructor(props) {
@@ -10,6 +11,7 @@ class App extends React.Component {
 			pacientes: []
 		}
 		this.handlePacientesChange = this.handlePacientesChange.bind(this);
+		this.handleEliminarClick = this.handleEliminarClick.bind(this);
 	}
 
 	handlePacientesChange(data) {
@@ -18,9 +20,32 @@ class App extends React.Component {
 		this.setState({
 			pacientes: clonePacientes
 		},()=>{
-			console.log(this.state.pacientes);
+			localStorage.setItem('pacientes',JSON.stringify(this.state.pacientes));
 		});
+	}
 
+	handleEliminarClick(id){
+		let clonePacientes = this.state.pacientes.slice();
+		let pacientes = [];
+		clonePacientes.forEach(paciente=>{
+			if(paciente.id!==id){
+				pacientes.push(paciente);
+			}
+		});
+		this.setState({
+			pacientes:pacientes
+		},()=>{
+			localStorage.setItem('pacientes',JSON.stringify(this.state.pacientes));
+		});
+	}
+
+	componentDidMount() {
+		const pacientes = JSON.parse(localStorage.getItem('pacientes'));
+		if(pacientes.length>0){
+			this.setState({
+				pacientes:pacientes
+			})
+		}
 	}
 
 	render() {
@@ -31,7 +56,9 @@ class App extends React.Component {
 					<div className="col-12 col-sm-6">
 						<CardForm onPacientesChange={this.handlePacientesChange} />
 					</div>
-					<div className="col-12 col-sm-6"></div>
+					<div className="col-12 col-sm-6">
+						<Panel pacientes={this.state.pacientes} onEliminarClick={this.handleEliminarClick}/>
+					</div>
 				</div>
 			</div>
 		);
