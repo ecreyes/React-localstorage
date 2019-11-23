@@ -4,19 +4,19 @@ import './CardForm.css';
 //Datepicker config
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale } from  "react-datepicker";
+import { registerLocale } from "react-datepicker";
 import es from 'date-fns/locale/es';
 registerLocale('es', es)
 
 class CardForm extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            nombre:"",
-            apellido:"",
+            nombre: "",
+            apellido: "",
             fecha: new Date(),
-            hora:"",
-            sintomas:""
+            hora: "",
+            sintomas: ""
         };
         this.handleNombreChange = this.handleNombreChange.bind(this);
         this.handleApellidoChange = this.handleApellidoChange.bind(this);
@@ -25,39 +25,48 @@ class CardForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleNombreChange(e){
+    handleNombreChange(e) {
         this.setState({
-            nombre:e.target.value
+            nombre: e.target.value
         });
     }
 
-    handleApellidoChange(e){
+    handleApellidoChange(e) {
         this.setState({
-            apellido:e.target.value
+            apellido: e.target.value
         });
     }
 
-    handleChangeDate(date){
-       this.setState({
-           fecha:date
-       })
+    handleChangeDate(date) {
+        this.setState({
+            fecha: date
+        })
     }
 
-    handleHoraChange(e){
+    handleHoraChange(e) {
         this.setState({
-            hora:e.target.value
+            hora: e.target.value
         });
     }
 
-    handleSintomasChange(e){
+    handleSintomasChange(e) {
         this.setState({
-            sintomas:e.target.value
+            sintomas: e.target.value
         });
     }
 
-    handleSubmit(e){
+    handleSubmit(e) {
         e.preventDefault();
-        console.log(this.state);
+        this.props.onPacientesChange(this.state);
+        e.currentTarget.reset();
+        this.setState({
+            nombre: "",
+            apellido: "",
+            fecha: new Date(),
+            hora: "",
+            sintomas: ""
+        }
+        );
     }
 
     render() {
